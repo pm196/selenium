@@ -1,37 +1,17 @@
-package selenium;
+package selenium.cart;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import selenium.BaseTest;
 
+import java.time.Duration;
 import java.util.Arrays;
 
-public class SeleniumDemoCartPageTest {
-
-    private WebDriver webDriver;
-    private final String SELENIUM_BASE_URL = "http://seleniumdemo.com/";
-    public static final String EXPECTED_REDIRECTED_SHOP_URL = "http://seleniumdemo.com/?post_type=product";
-    public static final String EXPECTED_REDIRECTED_CART_URL = "http://seleniumdemo.com/?page_id=5";
-
-
-    @BeforeEach
-    void setUp() {
-        WebDriverManager.chromedriver().setup();
-        webDriver = new ChromeDriver();
-    }
-
-    @AfterEach
-    void tearDown() {
-        webDriver.quit();
-    }
+public class SeleniumDemoCartPageTest extends BaseTest {
 
     @Test
     public void testEmptyCart() {
@@ -61,7 +41,7 @@ public class SeleniumDemoCartPageTest {
         cartWebElement.click();
         String redirectedShopUrl = webDriver.getCurrentUrl();
         clickAddToCart(29);
-        WebDriverWait wait = new WebDriverWait(webDriver, 3);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[title='View cart']")));
         webDriver.findElement(By.cssSelector("a[title='View cart']")).click();
         String redirectedCartUrl = webDriver.getCurrentUrl();
@@ -85,7 +65,7 @@ public class SeleniumDemoCartPageTest {
         String redirectedShopUrl = webDriver.getCurrentUrl();
 
         Arrays.asList(29, 27, 8).forEach(this::clickAddToCart);
-        WebDriverWait wait = new WebDriverWait(webDriver, 3);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[title='View cart']")));
         webDriver.findElement(By.cssSelector("a[title='View cart']")).click();
         String redirectedCartUrl = webDriver.getCurrentUrl();
